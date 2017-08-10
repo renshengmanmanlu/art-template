@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>亚军</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件  版本3-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .ul-cente{
+            margin: 0 auto;
+            width: 60%;
+            list-style-type:none;
+        }
+        .ul-cente li{
+            display: flex;
+        }
+        .ul-cente .li-flex-3{
+            flex: 3;
+        }
+        .ul-cente .li-flex-1{
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<ul class="ul-cente">
+    <li class="row">
+
+        <div class="li-flex-3">
+            <div>收款人姓名</div>
+        </div>
+        <div class="li-flex-3">
+            <div>选择银行</div>
+        </div>
+        <div class="li-flex-3">
+            <div>银行卡号</div>
+        </div>
+        <div class="li-flex-3">
+            <div>金额</div>
+        </div>
+        <div class="li-flex-1">
+            <div>操作</div>
+        </div>
+    </li>
+    <li class="row">
+
+        <div class="li-flex-3">
+            <input type="text" class="form-control" placeholder="开户人姓名" aria-describedby="basic-addon1">
+        </div>
+        <div class="li-flex-3">
+            <select id='ww'>
+                 <option value=”1”>高中</option>
+                 <option value=”2”>大学</option>
+                 <option value=”3”>博士</option>
+             </select>
+        </div>
+        <div class="li-flex-3">
+            <input type="text" class="form-control" placeholder="银行卡号" aria-describedby="basic-addon1">
+        </div>
+        <div class="li-flex-3">
+            <input type="text" class="form-control" placeholder="金额" aria-describedby="basic-addon1">
+        </div>
+        <div class="li-flex-1">
+            <div>删除</div>
+        </div>
+    </li>
+</ul>
+<hr>
+<div style="color: red">主要看下边 上边是一个对照模板</div>
+<ul class="ul-cente">
+    <li class="row">
+
+        <div class="li-flex-3">
+            <div>收款人姓名</div>
+        </div>
+        <div class="li-flex-3">
+            <div>选择银行</div>
+        </div>
+        <div class="li-flex-3">
+            <div>银行卡号</div>
+        </div>
+        <div class="li-flex-3">
+            <div>金额</div>
+        </div>
+        <div class="li-flex-1">
+            <div>操作</div>
+        </div>
+    </li>
+    <div id="content"></div>
+
+</ul>
+
+
+<script id="test" type="text/html">
+        {{each list value i}}
+        <li class="row">
+            <div class="li-flex-3">
+                <input type="text" id="name{{i}}" class="form-control" placeholder="开户人姓名" aria-describedby="basic-addon1">
+            </div>
+            <div class="li-flex-3">
+                <select id="yname{{i}}">
+                    <option value=”1”>高中</option>
+                    <option value=”2”>大学</option>
+                    <option value=”3”>博士</option>
+                </select>
+            </div>
+            <div class="li-flex-3">
+                <input type="text" id="zname{{i}}" class="form-control" placeholder="银行卡号" aria-describedby="basic-addon1">
+            </div>
+            <div class="li-flex-3">
+                <input type="text" id="mname{{i}}" class="form-control" placeholder="金额" aria-describedby="basic-addon1">
+            </div>
+            <div class="li-flex-1">
+                <div onclick="delet({{i}})">删除</div>
+            </div>
+        </li>
+        {{/each}}
+</script>
+<div id="add">新增</div>
+<div id="fromOn">下一步</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="template-web.js"></script>
+<script>
+    var list = {
+        name:'',
+        yname:'',
+        zname:'',
+        mname:''
+    };
+
+    var data = {
+        list: [{
+            name:'',
+            yname:'',
+            zname:'',
+            mname:''
+        },{
+            name:'',
+            yname:'',
+            zname:'',
+            mname:''
+        }]
+    };
+    init();
+
+    function init(){
+        var html = template('test', data);
+        $('#content').html(html);
+    }
+    //验证是否为空
+    function tj(){
+        //发送请求  其他验证自己加哈
+        console.log(data.list);
+
+    }
+    //获取数据 验证
+    $('#fromOn').on('click',function () {
+        debugger;
+        for (var i=0;i<data.list.length;i++){
+            //验证是否为空
+            var name = $("#name"+i).val(),
+                yname = $("#yname"+i).val(),
+                zname = $("#zname"+i).val(),
+                mname = $("#mname"+i).val();
+            if(name){
+                data.list[i].name = name;
+            }else{
+                console.log('请输入开户人姓名');
+                return;
+            }
+            if(yname){
+                data.list[i].yname = yname;
+            }else{
+                console.log('请输入开户人姓名');
+                return;
+            }
+            if(zname){
+                data.list[i].zname = zname;
+            }else{
+                console.log('请输入开户人姓名');
+                return;
+            }
+            if(mname){
+                data.list[i].mname = mname;
+            }else{
+                console.log('请输入开户人姓名');
+                return;
+            }
+        }
+        tj();
+    })
+
+    //添加
+    $('#add').on('click',function () {
+        data.list.push(list);
+        init();
+    })
+    //删除
+    function delet(i) {
+        data.list.splice(i,1);
+        console.log(data.list);
+        console.log(i)
+        init();
+    }
+</script>
+</body>
+</html>
